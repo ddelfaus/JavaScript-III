@@ -60,7 +60,7 @@ function Humanoid(characteristic){
   this.weapons = characteristic.weapons,
   this.language = characteristic.language;
 }
-Humanoid.prototype = Object.create(GameObject.prototype);
+
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 Humanoid.prototype.greet = function(){
  return `${this.name} offers a greeting in ${this.language}`;
@@ -147,14 +147,71 @@ Humanoid.prototype.greet = function(){
 
 
   function Villain(characteristic){
-    Humanoid.call(this, characteristic);
     
+    Humanoid.call(this, characteristic);
   }
+    Villain.prototype = Object.create(Humanoid.prototype);
+   
+   
+   
+   
+    Villain.prototype.smack = function(character,damage){
+
+      character.healthPoints = character.healthPoints - this.damage;
+
+      return `${this.name} smacks ${character.name} for ${damage} damage!`;
+     
+  };
+
+ 
+
+
 
 
   function Hero(characteristic){
-    Hummanoid.call(this, characteristic);
-
+    Humanoid.call(this, characteristic);
   }
+    Hero.prototype = Object.create(Humanoid.prototype);
+    Hero.prototype.slaps = function(character,damage){
+      character.healthPoints = character.healthPoints - this.damage;
+      return `${this.name} slaps ${character.name} for ${damage} damage!`;
+    };
+    
+  const goblin = new Villain({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: .5,
+      height: .5,
+    },
+    healthPoints: 8,
+    name: 'Snotnose',
+    team: 'Dank Clan',
+    weapons: [
+      'dagger',
+    ],
+    language: 'goblin',
+  });
+
+
+   
+  const warrior = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+      length: 2,
+      width: 1.5,
+      height: 1,
+    },
+    healthPoints: 8,
+    name: 'John',
+    team: 'Mercenary',
+    weapons: [
+      'pike',
+    ],
+    language: 'common',
+  });
+
   
+  console.log(warrior.slaps(goblin, 2));
   
+  console.log(goblin.smack(warrior, 2));
